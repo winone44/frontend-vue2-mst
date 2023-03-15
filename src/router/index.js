@@ -1,29 +1,75 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Router from 'vue-router'
+import Home from '../views/main/Home.vue'
 
-Vue.use(VueRouter)
+import store from "@/store";
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+Vue.use(Router)
+
+
+store.dispatch('autologin');
+
+const authGuard = (to, from, next) => {
+  if (store.getters.isAuth) {
+    next();
+  }else {
+    next({name: 'login'})
   }
-]
+}
 
-const router = new VueRouter({
+const notAuthGuard = (to, from, next) => {
+  if (!store.getters.isAuth) {
+    next();
+  }else {
+    next({name: 'protected'})
+  }
+}
+
+export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/main/Register.vue'),
+      beforeEnter: notAuthGuard,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/main/Login.vue'),
+      beforeEnter: notAuthGuard,
+    },
+    {
+      path: '/protected',
+      name: 'protected',
+      component: () => import('@/views/main/Protected.vue'),
+      beforeEnter: authGuard,
+    },
+    {
+      path: '/protected-tiktok',
+      name: 'protected-tiktok',
+      component: () => import('@/views/AppTiktok'),
+      beforeEnter: authGuard,
+    },
+  ]
 })
 
-export default router
+if (store.getters.isAuth) {
+  const expirationDate = new Date(localStorage.getItem('expires'));
+  const now = new Date();
+
+  if (expirationDate <= now) {
+    store.dispatch('logout')
+  } else {
+    setTimeout(() => {
+      store.dispatch('logout');
+    }, expirationDate.getTime() - now.getTime());
+  }
+}

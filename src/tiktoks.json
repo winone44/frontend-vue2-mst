@@ -1,0 +1,63 @@
+[
+  {
+    "id": "tiktok_1",
+    "user": "max234",
+    "title": "Morskie Oko",
+    "video": "media/test1.m4v",
+    "enterprise": "0",
+    "latitude_deg": "49.197293660153505",
+    "longitude_deg": "20.070114291330302",
+    "city": "Polska"
+
+  },
+  {
+    "id": "tiktok_2",
+    "user": "hellboy111",
+    "title": "Półwysep Helski",
+    "video": "media/PHelski.m4v",
+    "enterprise": "1",
+    "latitude_deg": "54.72020702545742",
+    "longitude_deg": "18.62371362580149",
+    "city": "Polska"
+  },
+  {
+    "id": "tiktok_3",
+    "user": "zoo23lublin",
+    "title": "Zoo Park Lublin Wystawa Zwierząt",
+    "video": "media/Zoo.m4v",
+    "enterprise": "0",
+    "latitude_deg": "51.235101541211954",
+    "longitude_deg": "22.565035505161458",
+    "city": "Lublin"
+  },
+  {
+    "id": "tiktok_4",
+    "user": "spiz888",
+    "title": "Spiżowi Mocni - Katowice Nocą",
+    "video": "media/SpizowiMocni.m4v",
+    "enterprise": "1",
+    "latitude_deg": "50.26229259830117",
+    "longitude_deg": "19.0113081473124",
+    "city": "Katowice"
+  },
+  {
+    "id": "tiktok_5",
+    "user": "energy2000",
+    "title": "Atb - Energy 2000 Przytkowice Evolution [14.05.22]",
+    "video": "media/Atb-Energy2000PrzytkowiceEvolution[14.05.22].m4v",
+    "enterprise": "1",
+    "latitude_deg": "49.90302879357454",
+    "longitude_deg": "19.69306618686104",
+    "city": "Przytkowice"
+  },
+  {
+    "id": "tiktok_6",
+    "user": "mrkryha",
+    "title": "JEDYNY W POLSCE KEBAB Z PLACKIEM ZIEMNIACZANYM BIG DADDY GRUDZIĄDZ - SPRAWDZAM JAK SMAKUJE",
+    "video": "media/2022-05-23_@mrkryha_7100944888988060933.mp4",
+    "enterprise": "1",
+    "latitude_deg": "53.4931866843339",
+    "longitude_deg": "18.75109805298859",
+    "city": "Grudziądz"
+  }
+]
