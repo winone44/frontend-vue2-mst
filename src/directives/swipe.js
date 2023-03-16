@@ -8,10 +8,10 @@ export default {
             //e.preventDefault();
 
             if (
-                e.type == "touchstart" ||
-                e.type == "touchmove" ||
-                e.type == "touchend" ||
-                e.type == "touchcancel"
+                e.type === "touchstart" ||
+                e.type === "touchmove" ||
+                e.type === "touchend" ||
+                e.type === "touchcancel"
             ) {
                 const touch = e.touches[0] || e.changedTouches[0];
                 touchStartPos = touch.pageY;
@@ -22,10 +22,10 @@ export default {
             //e.preventDefault();
 
             if (
-                e.type == "touchstart" ||
-                e.type == "touchmove" ||
-                e.type == "touchend" ||
-                e.type == "touchcancel"
+                e.type === "touchstart" ||
+                e.type === "touchmove" ||
+                e.type === "touchend" ||
+                e.type === "touchcancel"
             ) {
                 const touch = e.touches[0] || e.changedTouches[0];
                 touchStopPos = touch.pageY;
