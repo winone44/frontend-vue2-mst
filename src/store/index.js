@@ -124,7 +124,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.get('http://localhost:8000/api/users/accounts/friend/2/');
+        let {data} = await axios.get('http://localhost:8000/api/users/accounts/friend/' + state.userId + '/');
         commit('setFriends', Object.values(data))
       } catch(e) {
         console.log(e)
