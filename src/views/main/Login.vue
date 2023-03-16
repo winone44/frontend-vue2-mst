@@ -62,12 +62,10 @@
 
 <script>
   import { required, minLength, email } from 'vuelidate/lib/validators'
-  import BFormInvalidFeedback from 'bootstrap-vue/src/components/form/form-invalid-feedback';
   // import authAxios from "@/auth-axios";
 
   export default {
     name: 'login-main',
-    components: {BFormInvalidFeedback},
     data(){
       return {
         email: '',

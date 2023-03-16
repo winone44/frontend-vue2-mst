@@ -11,6 +11,7 @@ export default new Vuex.Store({
     token: null,
     userId: null,
     friends: null,
+    people:null,
     response: null,
 
   },
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     setFriends(state, payload) {
       state.friends = payload;
+    },
+    setPeople(state, payload) {
+      state.people = payload;
     },
     clearAuth(state) {
       state.token = null;
@@ -126,6 +130,17 @@ export default new Vuex.Store({
       try {
         let {data} = await axios.get('http://localhost:8000/api/users/accounts/friend/' + state.userId + '/');
         commit('setFriends', Object.values(data))
+      } catch(e) {
+        console.log(e)
+      }
+    },
+    async getPeople({commit, state}) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await axios.get('http://localhost:8000/api/users/accounts/person/');
+        commit('setPeople', Object.values(data))
       } catch(e) {
         console.log(e)
       }

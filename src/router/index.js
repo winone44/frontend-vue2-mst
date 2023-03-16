@@ -55,7 +55,13 @@ export default new Router({
     {
       path: '/protected-tiktok',
       name: 'protected-tiktok',
-      component: () => import('@/views/AppTiktok'),
+      component: () => import('@/views/AppTiktok.vue'),
+      beforeEnter: authGuard,
+    },
+    {
+      path: '/protectedSearchFriend',
+      name: 'protected-search-friend',
+      component: () => import('@/views/main/ProtectedSearchFriend.vue'),
       beforeEnter: authGuard,
     },
   ]
