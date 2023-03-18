@@ -11,7 +11,7 @@ export default new Vuex.Store({
     token: null,
     userId: null,
     friends: null,
-    people:null,
+    people: null,
     response: null,
 
   },
@@ -35,6 +35,7 @@ export default new Vuex.Store({
       state.token = null;
       state.userId = null;
       state.friends = null;
+      state.people = null;
     },
     setResponse(state, payload) {
       state.response = payload.response;

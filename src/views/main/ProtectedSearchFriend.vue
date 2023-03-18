@@ -1,4 +1,12 @@
 <template>
+  <transition name="fade" mode="out-in">
+    <div v-if="isLoading" class="padding-y">
+      <h4>Wczytywanie użytkowników</h4>
+      <div class="text-center">
+        <b-spinner variant="primary"/>
+      </div>
+    </div>
+    <div v-else>
   <b-container fluid>
     <!-- User Interface controls -->
     <b-row>
@@ -72,6 +80,7 @@
                 v-model="filter"
                 type="search"
                 placeholder="Type to Search"
+                :disabled="isFilterInputDisabled"
             ></b-form-input>
 
             <b-input-group-append>
@@ -97,9 +106,9 @@
               :aria-describedby="ariaDescribedby"
               class="mt-1"
           >
-            <b-form-checkbox value="name">Name</b-form-checkbox>
+            <b-form-checkbox value="firstName">Name</b-form-checkbox>
             <b-form-checkbox value="age">Age</b-form-checkbox>
-            <b-form-checkbox value="isActive">Active</b-form-checkbox>
+            <b-form-checkbox value="is_business">Active</b-form-checkbox>
           </b-form-checkbox-group>
         </b-form-group>
       </b-col>
@@ -138,7 +147,7 @@
 
     <!-- Main table element -->
     <b-table
-        :items="items"
+        :items="people"
         :fields="fields"
         :current-page="currentPage"
         :per-page="perPage"
@@ -153,7 +162,7 @@
         @filtered="onFiltered"
     >
       <template #cell(name)="row">
-        {{ row.value }} {{ row.value.last }}
+        {{ row.value }}
       </template>
 
       <template #cell(actions)="row">
@@ -179,28 +188,40 @@
       <pre>{{ infoModal.content }}</pre>
     </b-modal>
   </b-container>
+    </div>
+  </transition>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      items: [
-        { age: 40, firstName: 'Dickerson', lastName: 'Macdonald' },
-        { age: 21, firstName: 'Larsen', lastName: 'Shaw' },
-        { age: 89, firstName: 'Geneva', lastName: 'Wilson' },
-        { age: 38, firstName: 'Jami', lastName: 'Carney' },
-        { age: 27, firstName: 'Essie', lastName: 'Dunlap' },
-        { age: 40, firstName: 'Thor', lastName: 'Macdonald' },
-        { age: 26, firstName: 'Mitzi', lastName: 'Navarro' },
-        { age: 22, firstName: 'Genevieve', lastName: 'Wilson' },
-        { age: 38, firstName: 'John', lastName: 'Carney' },
-        { age: 29, firstName: 'Dick', lastName: 'Dunlap' }
-      ],
+      // items: [
+      //   { age: 40, firstName: 'Dickerson', lastName: 'Macdonald' },
+      //   { age: 21, firstName: 'Larsen', lastName: 'Shaw' },
+      //   { age: 89, firstName: 'Geneva', lastName: 'Wilson' },
+      //   { age: 38, firstName: 'Jami', lastName: 'Carney' },
+      //   { age: 27, firstName: 'Essie', lastName: 'Dunlap' },
+      //   { age: 40, firstName: 'Thor', lastName: 'Macdonald' },
+      //   { age: 26, firstName: 'Mitzi', lastName: 'Navarro' },
+      //   { age: 22, firstName: 'Genevieve', lastName: 'Wilson' },
+      //   { age: 38, firstName: 'John', lastName: 'Carney' },
+      //   { age: 29, firstName: 'Dick', lastName: 'Dunlap' }
+      // ],
       fields: [
         { key: 'firstName', label: 'first name', sortable: true, sortDirection: 'desc' },
         { key: 'lastName', label: 'last name', sortable: true, sortDirection: 'desc' },
         { key: 'age', label: 'Person age', sortable: true, class: 'text-center' },
+        {
+          key: 'is_business',
+          label: 'Is Business',
+          formatter: (value) => {
+            return value ? 'Yes' : 'No'
+          },
+          sortable: true,
+          sortByFormatted: true,
+          filterByFormatted: true
+        },
         { key: 'actions', label: 'Actions' }
       ],
       totalRows: 1,
@@ -216,7 +237,9 @@ export default {
         id: 'info-modal',
         title: '',
         content: ''
-      }
+      },
+      isLoading: true,
+      isFilterInputDisabled: false,
     }
   },
   computed: {
@@ -227,11 +250,30 @@ export default {
           .map(f => {
             return { text: f.label, value: f.key }
           })
+    },
+    people() {
+      console.log(this.$store.state.people)
+      return this.$store.state.people;
     }
   },
-  mounted() {
-    // Set the initial number of items
-    this.totalRows = this.items.length
+  async created() {
+    await this.$store.dispatch('getPeople');
+    this.isLoading = false;
+  },
+  watch: {
+    people() {
+      this.totalRows = this.people.length
+    },
+    filterOn(next) {
+      if (next.includes('is_business')) {
+        this.filter = 'Yes'
+        this.isFilterInputDisabled = true
+      }
+      else {
+        this.filter = ''
+        this.isFilterInputDisabled = false
+      }
+    }
   },
   methods: {
     info(item, index, button) {
@@ -247,7 +289,7 @@ export default {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length
       this.currentPage = 1
-    }
+    },
   }
 }
 </script>
