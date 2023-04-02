@@ -94,7 +94,7 @@
         <b-form-group
             v-model="sortDirection"
             label="Filter On"
-            description="Leave all unchecked to filter on all data"
+            description="Pozostaw wszystkie niezaznaczone, aby filtrować na wszystkich danych."
             label-cols-sm="3"
             label-align-sm="right"
             label-size="sm"
@@ -106,9 +106,9 @@
               :aria-describedby="ariaDescribedby"
               class="mt-1"
           >
-            <b-form-checkbox value="firstName">Name</b-form-checkbox>
-            <b-form-checkbox value="age">Age</b-form-checkbox>
-            <b-form-checkbox value="is_business">Active</b-form-checkbox>
+            <b-form-checkbox value="lastName">Nazwisko</b-form-checkbox>
+            <b-form-checkbox value="age">Wiek</b-form-checkbox>
+            <b-form-checkbox value="is_company">Przedsiebiorca</b-form-checkbox>
           </b-form-checkbox-group>
         </b-form-group>
       </b-col>
@@ -167,10 +167,13 @@
 
       <template #cell(actions)="row">
         <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
-          Info modal
+          Więcej informacji
         </b-button>
-        <b-button size="sm" @click="row.toggleDetails">
-          {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+        <b-button size="sm" @click="addFriend(row.item.id)">
+          Dodaj znajomego
+        </b-button>
+        <b-button size="sm" @click="delFriend(row.item.id)">
+          Usuń znajomego
         </b-button>
       </template>
 
@@ -185,7 +188,7 @@
 
     <!-- Info modal -->
     <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
-      <pre>{{ infoModal.content }}</pre>
+      <ModalPersonDetails :person-data="infoModal.content"/>
     </b-modal>
   </b-container>
     </div>
@@ -193,7 +196,9 @@
 </template>
 
 <script>
+import ModalPersonDetails from "@/components/ModalPersonDetails";
 export default {
+  components: {ModalPersonDetails},
   data() {
     return {
       // items: [
@@ -209,14 +214,14 @@ export default {
       //   { age: 29, firstName: 'Dick', lastName: 'Dunlap' }
       // ],
       fields: [
-        { key: 'firstName', label: 'first name', sortable: true, sortDirection: 'desc' },
-        { key: 'lastName', label: 'last name', sortable: true, sortDirection: 'desc' },
-        { key: 'age', label: 'Person age', sortable: true, class: 'text-center' },
+        { key: 'firstName', label: 'Imię', sortable: true, sortDirection: 'desc' },
+        { key: 'lastName', label: 'Nazwisko', sortable: true, sortDirection: 'desc' },
+        { key: 'age', label: 'Wiek', sortable: true, class: 'text-center' },
         {
-          key: 'is_business',
-          label: 'Is Business',
+          key: 'is_company',
+          label: 'Przedsiembiorstwo',
           formatter: (value) => {
-            return value ? 'Yes' : 'No'
+            return value ? 'Tak' : 'Nie'
           },
           sortable: true,
           sortByFormatted: true,
@@ -265,8 +270,8 @@ export default {
       this.totalRows = this.people.length
     },
     filterOn(next) {
-      if (next.includes('is_business')) {
-        this.filter = 'Yes'
+      if (next.includes('is_company')) {
+        this.filter = 'Tak'
         this.isFilterInputDisabled = true
       }
       else {
@@ -276,9 +281,21 @@ export default {
     }
   },
   methods: {
+    async addFriend(id) {
+      await this.$store.dispatch('addFriend', {
+        person: this.$store.state.userId,
+        friend: id
+      })
+    },
+    async delFriend(id) {
+      await this.$store.dispatch('delFriend', {
+        person: this.$store.state.userId,
+        friend: id
+      })
+    },
     info(item, index, button) {
       this.infoModal.title = `Row index: ${index}`
-      this.infoModal.content = JSON.stringify(item, null, 2)
+      this.infoModal.content = JSON.parse(JSON.stringify(item, null, 2))
       this.$root.$emit('bv::show::modal', this.infoModal.id, button)
     },
     resetInfoModal() {

@@ -1,6 +1,6 @@
 <template>
     <b-nav tabs fill>
-        <router-link to="/" tag="b-nav-item" class="nav-item" :active="$route.name === 'home'">Home</router-link>
+        <router-link to="/" tag="b-nav-item" class="nav-item" v-if="!auth" :active="$route.name === 'home'">Home</router-link>
         <router-link to="/register" tag="b-nav-item" class="nav-item" v-if="!auth" :active="$route.name === 'register'"> Dołącz do nas</router-link>
         <router-link to="/login" tag="b-nav-item" class="nav-item" v-if="!auth" :active="$route.name === 'login'">Zaloguj się</router-link>
         <router-link to="/protected" tag="b-nav-item" class="nav-item" v-if="auth" :active="$route.name === 'protected'">Dla zalogowanych</router-link>

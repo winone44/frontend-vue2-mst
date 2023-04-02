@@ -48,7 +48,7 @@ export default new Vuex.Store({
     async login({commit, dispatch}, payload) {
       try {
         console.log(payload);
-        let response = await axios.post('http://localhost:8000/api/users/accounts/login', qs.stringify(payload))
+        let response = await axios.post('http://192.168.0.182:8000/api/users/accounts/login', qs.stringify(payload))
         console.log(response);
         console.log(response.data.localId);
         commit('auth', {
@@ -110,7 +110,7 @@ export default new Vuex.Store({
     },
     async register({commit}, payload) {
       try {
-        let response = await axios.post('http://localhost:8000/api/users/accounts/register', qs.stringify(payload))
+        let response = await axios.post('http://192.168.0.182:8000/api/users/accounts/register', qs.stringify(payload))
         console.log(response);
         router.push({name: 'login'})
 
@@ -121,15 +121,33 @@ export default new Vuex.Store({
         });
         console.log(e)
       }
-
-
+    },
+    async addFriend({commit}, payload) {
+      try {
+        let {data} = await axios.post('http://192.168.0.182:8000/api/users/accounts/friend/', payload)
+        console.log(data);
+        commit('setFriends', Object.values(data));
+      } catch (e) {
+        console.log(e)
+      }
     },
     async getFriends({commit, state}) {
       if (state.userId == null) {
         return;
       }
       try {
-        let {data} = await axios.get('http://localhost:8000/api/users/accounts/friend/' + state.userId + '/');
+        let {data} = await axios.get('http://192.168.0.182:8000/api/users/accounts/friend/' + state.userId + '/');
+        commit('setFriends', Object.values(data))
+      } catch(e) {
+        console.log(e)
+      }
+    },
+    async delFriend({commit, state}, payload) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await axios.delete('http://192.168.0.182:8000/api/users/accounts/friend/', { data: payload });
         commit('setFriends', Object.values(data))
       } catch(e) {
         console.log(e)
@@ -140,7 +158,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.get('http://localhost:8000/api/users/accounts/person/');
+        let {data} = await axios.get('http://192.168.0.182:8000/api/users/accounts/person/');
         commit('setPeople', Object.values(data))
       } catch(e) {
         console.log(e)

@@ -1,15 +1,15 @@
 <template>
   <b-jumbotron class="full-height white-bg">
-    <template slot="header">Vue Auth</template>
+    <template slot="header">Mobilny System Turystyczny</template>
 
     <template slot="lead">
-      Naucz się obsługiwać proces rejestracji oraz logowania przy pomocy Vue Auth, Axios i Firebase
+      Baw się, poznawaj, zwiedzaj
     </template>
 
     <hr class="my-4" />
 
     <p>
-      Kluczowe funkcjonalności przetestujesz w tych poniższych route'ach
+      Zapraszam
     </p>
 
     <b-button variant="primary"><router-link to="/register" tag="span">Rejestracja</router-link></b-button> &nbsp;
