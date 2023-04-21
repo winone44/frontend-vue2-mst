@@ -122,11 +122,11 @@ export default new Vuex.Store({
         console.log(e)
       }
     },
-    async addFriend({commit}, payload) {
+    async addFriend({state}, payload) {
       try {
         let {data} = await axios.post('http://192.168.0.182:8000/api/users/accounts/friend/', payload)
         console.log(data);
-        commit('setFriends', Object.values(data));
+        console.log(state.userId);
       } catch (e) {
         console.log(e)
       }
@@ -137,18 +137,18 @@ export default new Vuex.Store({
       }
       try {
         let {data} = await axios.get('http://192.168.0.182:8000/api/users/accounts/friend/' + state.userId + '/');
+        console.log('zrobione')
         commit('setFriends', Object.values(data))
       } catch(e) {
         console.log(e)
       }
     },
-    async delFriend({commit, state}, payload) {
+    async delFriend({state}, payload) {
       if (state.userId == null) {
         return;
       }
       try {
-        let {data} = await axios.delete('http://192.168.0.182:8000/api/users/accounts/friend/', { data: payload });
-        commit('setFriends', Object.values(data))
+        await axios.delete('http://192.168.0.182:8000/api/users/accounts/friend/', { data: payload });
       } catch(e) {
         console.log(e)
       }
