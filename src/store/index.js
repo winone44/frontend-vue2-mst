@@ -13,6 +13,7 @@ export default new Vuex.Store({
     friends: null,
     people: null,
     response: null,
+    messages: null,
 
   },
   getters: {
@@ -31,11 +32,18 @@ export default new Vuex.Store({
     setPeople(state, payload) {
       state.people = payload;
     },
+    setMessages(state, payload) {
+      state.messages = payload;
+    },
+    addMessages(state, payload) {
+      state.messages.splice(0,0,payload);
+    },
     clearAuth(state) {
       state.token = null;
       state.userId = null;
       state.friends = null;
       state.people = null;
+      state.messages = null;
     },
     setResponse(state, payload) {
       state.response = payload.response;
@@ -163,6 +171,40 @@ export default new Vuex.Store({
       } catch(e) {
         console.log(e)
       }
-    }
+    },
+    async getInBoxMessages({commit, state}, payload) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await axios.get('http://192.168.0.182:8000/api/users/messages/inbox/', {params: payload});
+        console.log(data)
+        commit('setMessages', Object.values(data))
+      } catch(e) {
+        console.log(e)
+      }
+    },
+    async getMessages({commit, state}, payload) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await axios.get('http://192.168.0.182:8000/api/users/messages/', {params: payload});
+        console.log(data)
+        commit('setMessages', Object.values(data))
+      } catch(e) {
+        console.log(e)
+      }
+    },
+    async sendMessages({commit}, payload) {
+      try {
+        let {data} = await axios.post('http://192.168.0.182:8000/api/users/messages/', payload)
+        console.log(data);
+        commit('addMessages', data)
+        //console.log(state.userId);
+      } catch (e) {
+        console.log(e)
+      }
+    },
   }
 })

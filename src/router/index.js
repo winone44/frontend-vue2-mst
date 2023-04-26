@@ -59,6 +59,19 @@ export default new Router({
       beforeEnter: authGuard,
     },
     {
+      path: '/protected-mail',
+      name: 'protected-mail',
+      component: () => import('@/views/main/ProtectedMail.vue'),
+      beforeEnter: authGuard,
+    },
+    {
+      path: '/protected-mail/conversations/:id',
+      name: 'protected-mail-conversations',
+      component: () => import('@/views/main/ProtectedMailConversation.vue'),
+      beforeEnter: authGuard,
+      props: true,
+    },
+    {
       path: '/protectedSearchFriend',
       name: 'protected-search-friend',
       component: () => import('@/views/main/ProtectedSearchFriend.vue'),

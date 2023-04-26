@@ -6,6 +6,7 @@
         <router-link to="/protected" tag="b-nav-item" class="nav-item" v-if="auth" :active="$route.name === 'protected'">Dla zalogowanych</router-link>
         <router-link to="/protectedSearchFriend" tag="b-nav-item" class="nav-item" v-if="auth" :active="$route.name === 'protected-search-friend'">Szukaj znajomych</router-link>
         <router-link to="/protected-tiktok" tag="b-nav-item" class="nav-item" v-if="auth" :active="$route.name === 'protected-tiktok'">Dla zalogowanych tiktok</router-link>
+        <router-link to="/protected-mail" tag="b-nav-item" class="nav-item" v-if="auth" :active="$route.name === 'protected-mail'">Dla zalogowanych wiadomości</router-link>
         <li @click="logout" class="nav-item" v-if="auth"><b-nav-item>Wyloguj</b-nav-item></li>
     </b-nav>
 </template>
