@@ -13,7 +13,7 @@
         :enterprise="tiktok.enterprise"
         :latitude_deg="tiktok.latitude_deg"
         :longitude_deg="tiktok.longitude_deg"
-        :city="tiktok.city"
+        :address="tiktok.address"
         :key="tiktok.id"
         :ref="
         (el) => {

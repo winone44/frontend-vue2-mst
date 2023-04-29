@@ -53,7 +53,7 @@ export default defineComponent({
     enterprise: [String, Boolean],
     latitude_deg: String,
     longitude_deg: String,
-    city: String,
+    address: String,
   },
   setup() {
     const vidRef = ref(null);
