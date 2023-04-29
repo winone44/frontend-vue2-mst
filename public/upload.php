@@ -10,7 +10,7 @@ if (!isset($_FILES['file'])) {
 $file = $_FILES['file'];
 
 // Sprawdzenie, czy plik nie jest zbyt duży
-$maxFileSize = 1024 * 1024 * 100; // 100 MB
+$maxFileSize = 1024 * 1024 * 40; // 40 MB
 if ($file['size'] > $maxFileSize) {
   header('Content-Type: application/json');
   echo json_encode(['success' => false, 'message' => 'Plik jest zbyt duży']);

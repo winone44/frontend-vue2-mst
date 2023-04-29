@@ -45,7 +45,7 @@ export default {
         url: './upload.php',
         uploadMultiple: false,
         paramName: 'file',
-        maxFilesize: 100,
+        maxFilesize: 40,
         maxFiles: 5,
         dictDefaultMessage: 'Przeciągnij i upuść pliki tutaj lub kliknij, aby wybrać pliki do przesłania.',
         acceptedFiles: '.mp4,.m4v',
