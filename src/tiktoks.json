@@ -1,6 +1,6 @@
 [
   {
-    "id": "tiktok_1",
+    "id": "1",
     "user": "max234",
     "title": "Morskie Oko",
     "video": "media/test1.m4v",
@@ -11,7 +11,7 @@
 
   },
   {
-    "id": "tiktok_2",
+    "id": "2",
     "user": "hellboy111",
     "title": "Półwysep Helski",
     "video": "media/PHelski.m4v",
@@ -21,7 +21,7 @@
     "city": "Polska"
   },
   {
-    "id": "tiktok_3",
+    "id": "3",
     "user": "zoo23lublin",
     "title": "Zoo Park Lublin Wystawa Zwierząt",
     "video": "media/Zoo.m4v",
@@ -31,7 +31,7 @@
     "city": "Lublin"
   },
   {
-    "id": "tiktok_4",
+    "id": "4",
     "user": "spiz888",
     "title": "Spiżowi Mocni - Katowice Nocą",
     "video": "media/SpizowiMocni.m4v",
@@ -41,7 +41,7 @@
     "city": "Katowice"
   },
   {
-    "id": "tiktok_5",
+    "id": "5",
     "user": "energy2000",
     "title": "Atb - Energy 2000 Przytkowice Evolution [14.05.22]",
     "video": "media/Atb-Energy2000PrzytkowiceEvolution[14.05.22].m4v",
@@ -51,7 +51,7 @@
     "city": "Przytkowice"
   },
   {
-    "id": "tiktok_6",
+    "id": "6",
     "user": "mrkryha",
     "title": "JEDYNY W POLSCE KEBAB Z PLACKIEM ZIEMNIACZANYM BIG DADDY GRUDZIĄDZ - SPRAWDZAM JAK SMAKUJE",
     "video": "media/2022-05-23_@mrkryha_7100944888988060933.mp4",

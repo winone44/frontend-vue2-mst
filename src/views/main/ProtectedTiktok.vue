@@ -3,7 +3,7 @@
       class="tiktok-stream"
       ref="tiktokStream"
       v-swipe="onSwipe"
-      :style="state.style"
+      :style="style"
   >
     <tiktok
         v-for="(tiktok, i) in tiktokData"
@@ -25,20 +25,11 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  watch,
-  onBeforeUpdate,
-} from "vue";
 
 import swipe from "../../directives/swipe.js";
 import Tiktok from "../../components/Tiktok.vue";
-import TiktoksJson from "../../tiktoks.json";
 
-export default defineComponent({
+export default {
   name: "TikTokStream",
   directives: {
     swipe,
@@ -46,56 +37,56 @@ export default defineComponent({
   components: {
     Tiktok,
   },
-  setup() {
-    const tiktokStream = ref(null);
-    const tiktokRefs = ref([]);
-    const tiktokData = TiktoksJson;
-
-    const state = reactive({
+  data() {
+    return {
+      tiktokStream: null,
+      tiktokRefs: [],
       currentSlide: 1,
-      amoundOfSlides: TiktoksJson.length,
-      style: {
-        transform: computed(
-            () => `translate3d(0, ${-(state.currentSlide - 1) * 100}%, 0)`
-        ),
-      },
-    });
-
-    onBeforeUpdate(() => {
-      tiktokRefs.value = [];
-    });
-
-    watch(
-        () => state.currentSlide,
+    };
+  },
+  computed: {
+    tiktokData() {
+      return this.$store.state.videos;
+    },
+    amountOfSlides() {
+      return this.$store.state.videos.length;
+    },
+    style() {
+      return {
+        transform: `translate3d(0, ${-(this.currentSlide - 1) * 100}%, 0)`,
+      };
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('getVideos')
+    this.$watch(
+        () => this.currentSlide,
         (items, oldItems) => {
-          tiktokRefs.value[items - 1].play();
-          tiktokRefs.value[oldItems - 1].pause();
+          this.tiktokRefs[items - 1].play();
+          this.tiktokRefs[oldItems - 1].pause();
         },
         {
           lazy: false,
         }
     );
 
-    const onSwipe = (direction) => {
+    this.$nextTick(() => {
+      this.tiktokRefs = [];
+    });
+  },
+  methods: {
+    onSwipe(direction) {
       if (
-          (direction === 1 && state.currentSlide === state.amoundOfSlides) ||
-          (direction === -1 && state.currentSlide === 1)
+          (direction === 1 && this.currentSlide === this.amountOfSlides) ||
+          (direction === -1 && this.currentSlide === 1)
       ) {
         return;
       }
 
-      state.currentSlide += direction;
-    };
-
-    return {
-      state,
-      onSwipe,
-      tiktokStream,
-      tiktokData,
-      tiktokRefs,
-    };
+      this.currentSlide += direction;
+    },
   },
-});
+};
 </script>
 
 <style>

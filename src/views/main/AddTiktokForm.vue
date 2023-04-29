@@ -2,11 +2,11 @@
   <div>
     <form @submit.prevent="submitForm">
       <label for="title">Opis:</label>
-      <input type="text" id="title" v-model="title" />
+      <input type="text" id="title" v-model="title"/>
       <label for="address">Adres:</label>
-      <input type="text" id="address" v-model="address" />
+      <input type="text" id="address" v-model="address"/>
       <label for="enterprise">Firma/Reklama:</label>
-      <input type="checkbox" id="enterprise" v-model="enterprise" />
+      <input type="checkbox" id="enterprise" v-model="enterprise"/>
       <vue-dropzone
           id="file-send-box"
           ref="dropzone"
@@ -53,11 +53,18 @@ export default {
       },
       newFileName: null,
       enterprise: false,
+      response: null,
     };
   },
   methods: {
-    onSuccess(file, response) {
+    async onSuccess(file, response) {
       console.log(file, response);
+      if (response.success === true) {
+        await this.sendFormAndData();
+      } else {
+        console.log('Plik nie został przesłany')
+      }
+
     },
     renameToTimestamp(file) {
       const timestamp = new Date().getTime();
@@ -66,27 +73,47 @@ export default {
       return `${timestamp}.${fileExtension}`;
     },
     async submitForm() {
+      function setVariable(value) {
+        const maxDigits = 18;
+        const decimalPlaces = 14;
+
+        const floatValue = parseFloat(value);
+
+        if (isNaN(floatValue)) {
+          console.error("Value is not a number.");
+          return 0;
+        }
+
+        if (floatValue.toString().replace(".", "").length <= maxDigits) {
+          return parseFloat(floatValue.toFixed(decimalPlaces));
+        } else {
+          console.error("Value exceeds the maximum allowed digits.");
+          return 0;
+        }
+      }
       try {
         // Wysyłanie adresu do Django REST API
         // const response = await axios.post(
         //     "http://localhost:8000/api/address/",
         //     { address: this.address }
         // );
-          // Użycie Nominatim do przekształcenia adresu w współrzędne geograficzne
-          const nominatimResponse = await axios.get(
-              `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-                  this.address
-              )}`
-          );
-          if (nominatimResponse.data.length > 0) {
-            this.coordinates = {
-              lat: nominatimResponse.data[0].lat,
-              lon: nominatimResponse.data[0].lon,
-            };
-            await this.sendFormAndData();
-          } else {
-            this.coordinates = "Adres nie został znaleziony.";
-          }
+        // Użycie Nominatim do przekształcenia adresu w współrzędne geograficzne
+        const nominatimResponse = await axios.get(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+                this.address
+            )}`
+        );
+        if (nominatimResponse.data.length > 0) {
+          this.coordinates = {
+            lat: setVariable(nominatimResponse.data[0].lat),
+            lon: setVariable(nominatimResponse.data[0].lon),
+          };
+          //start uploadu
+          this.$refs.dropzone.processQueue();
+
+        } else {
+          this.coordinates = "Adres nie został znaleziony.";
+        }
 
       } catch (error) {
         console.error("Wystąpił błąd:", error);
@@ -103,12 +130,10 @@ export default {
           address: this.address,
           user: this.$store.state.userId
         })
-        this.$refs.dropzone.processQueue();
       } catch (error) {
         console.error("Wystąpił błąd:", error);
       }
-
-    }
+    },
   },
 }
 </script>

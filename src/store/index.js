@@ -14,6 +14,69 @@ export default new Vuex.Store({
     people: null,
     response: null,
     messages: null,
+    videos: [
+      {
+        "id": "1",
+        "user": "max234",
+        "title": "Morskie Oko",
+        "video": "media/test1.m4v",
+        "enterprise": "0",
+        "latitude_deg": "49.197293660153505",
+        "longitude_deg": "20.070114291330302",
+        "city": "Polska"
+
+      },
+      {
+        "id": "2",
+        "user": "hellboy111",
+        "title": "Półwysep Helski",
+        "video": "media/PHelski.m4v",
+        "enterprise": "1",
+        "latitude_deg": "54.72020702545742",
+        "longitude_deg": "18.62371362580149",
+        "city": "Polska"
+      },
+      {
+        "id": "3",
+        "user": "zoo23lublin",
+        "title": "Zoo Park Lublin Wystawa Zwierząt",
+        "video": "media/Zoo.m4v",
+        "enterprise": "0",
+        "latitude_deg": "51.235101541211954",
+        "longitude_deg": "22.565035505161458",
+        "city": "Lublin"
+      },
+      {
+        "id": "4",
+        "user": "spiz888",
+        "title": "Spiżowi Mocni - Katowice Nocą",
+        "video": "media/SpizowiMocni.m4v",
+        "enterprise": "1",
+        "latitude_deg": "50.26229259830117",
+        "longitude_deg": "19.0113081473124",
+        "city": "Katowice"
+      },
+      {
+        "id": "5",
+        "user": "energy2000",
+        "title": "Atb - Energy 2000 Przytkowice Evolution [14.05.22]",
+        "video": "media/Atb-Energy2000PrzytkowiceEvolution[14.05.22].m4v",
+        "enterprise": "1",
+        "latitude_deg": "49.90302879357454",
+        "longitude_deg": "19.69306618686104",
+        "city": "Przytkowice"
+      },
+      {
+        "id": "6",
+        "user": "mrkryha",
+        "title": "JEDYNY W POLSCE KEBAB Z PLACKIEM ZIEMNIACZANYM BIG DADDY GRUDZIĄDZ - SPRAWDZAM JAK SMAKUJE",
+        "video": "media/2022-05-23_@mrkryha_7100944888988060933.mp4",
+        "enterprise": "1",
+        "latitude_deg": "53.4931866843339",
+        "longitude_deg": "18.75109805298859",
+        "city": "Grudziądz"
+      }
+    ],
 
   },
   getters: {
@@ -37,6 +100,9 @@ export default new Vuex.Store({
     },
     addMessages(state, payload) {
       state.messages.splice(0,0,payload);
+    },
+    addVideos(state, payload) {
+      state.videos = payload;
     },
     clearAuth(state) {
       state.token = null;
@@ -201,6 +267,32 @@ export default new Vuex.Store({
         let {data} = await axios.post('http://192.168.0.182:8000/api/users/messages/', payload)
         console.log(data);
         commit('addMessages', data)
+        //console.log(state.userId);
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async sendVideoForm({state}, payload) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await axios.post('http://192.168.0.182:8000/api/users/video/add/', payload)
+        console.log(data);
+
+        //console.log(state.userId);
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async getVideos({state, commit}) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await axios.get('http://192.168.0.182:8000/api/users/video/add/')
+        console.log(data);
+        commit('addVideos', data)
         //console.log(state.userId);
       } catch (e) {
         console.log(e)

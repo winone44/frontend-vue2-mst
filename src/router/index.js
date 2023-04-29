@@ -77,6 +77,12 @@ export default new Router({
       component: () => import('@/views/main/ProtectedSearchFriend.vue'),
       beforeEnter: authGuard,
     },
+    {
+      path: '/add-new-video',
+      name: 'add-new-video',
+      component: () => import('@/views/main/AddTiktokForm.vue'),
+      beforeEnter: authGuard,
+    },
   ]
 })
 

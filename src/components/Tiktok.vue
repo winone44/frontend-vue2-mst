@@ -16,12 +16,12 @@
     </div>
 
     <div class="user-button">
-      <router-link :to="{path: '/user/' + user}" tag="a" >@{{user}}</router-link>
+      <router-link :to="{path: '/user/' + user.id}" tag="a" >@{{user.id}}</router-link>
     </div>
 
     <div class="title">
       <p :class="title.length>15 ? 'title-small': null" style="margin: 10px; opacity: 0.8">{{title}}</p>
-      <p style="font-size: 0.5em; margin: 10px; opacity: 0.5">📌{{city}}</p>
+      <p style="font-size: 0.5em; margin: 10px; opacity: 0.5">📌{{address}}</p>
     </div>
 
 
@@ -47,10 +47,10 @@ import {defineComponent, reactive, ref} from "vue";
 export default defineComponent({
   name: "tiktok-vue",
   props: {
-    user: String,
+    user: [String, Object],
     video: String,
     title: String,
-    enterprise: String,
+    enterprise: [String, Boolean],
     latitude_deg: String,
     longitude_deg: String,
     city: String,
