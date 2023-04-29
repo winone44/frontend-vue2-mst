@@ -1,0 +1,14 @@
+# enable the RewriteEngine
+RewriteEngine On
+
+# set the base directory for file uploads
+SetEnv BASE_UPLOAD_PATH "D:/xampp/htdocs/upload"
+
+# redirect all requests to index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.html [L]
+
+# handle file uploads
+RewriteCond %{REQUEST_METHOD} POST
+RewriteCond %{REQUEST_URI} ^/uploads/
+RewriteRule ^(.*)$ %{ENV:BASE_UPLOAD_PATH}$1 [L]
