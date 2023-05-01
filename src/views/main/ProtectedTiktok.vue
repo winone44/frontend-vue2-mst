@@ -62,7 +62,8 @@ export default {
     this.$watch(
         () => this.currentSlide,
         (items, oldItems) => {
-          this.tiktokRefs[items - 1].play();
+          let next = true;
+          this.tiktokRefs[items - 1].play(next);
           this.tiktokRefs[oldItems - 1].pause();
         },
         {

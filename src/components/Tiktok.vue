@@ -35,16 +35,11 @@
         <a class="transparent-button" :href="'https://www.google.com/maps/search/?api=1&query=' + latitude_deg + '%2C' + longitude_deg ">Lokalizacja 🧑‍🚀</a>
       </div>
     </div>
-
-
-
   </div>
 </template>
 
 <script>
-import {defineComponent, reactive, ref} from "vue";
-
-export default defineComponent({
+export default {
   name: "tiktok-vue",
   props: {
     user: [String, Object],
@@ -55,41 +50,37 @@ export default defineComponent({
     longitude_deg: String,
     address: String,
   },
-  setup() {
-    const vidRef = ref(null);
-
-    const state = reactive({
-      playing: false,
-    });
-
-    const play = () => {
-      vidRef.value.currentTime = 0;
-      vidRef.value.play();
-      state.playing = true;
-    };
-
-    const pause = () => {
-      vidRef.value.pause();
-      state.playing = false;
-    };
-
-    const togglePlay = () => {
-      if (state.playing) {
-        pause();
-      } else {
-        play();
-      }
-    };
-
+  data() {
     return {
-      vidRef,
-      play,
-      pause,
-      togglePlay,
-      state,
+      state: {
+        playing: false,
+      },
     };
   },
-});
+  mounted() {
+
+  },
+  methods: {
+    play(next) {
+      if(next) {
+        this.$refs.vidRef.currentTime = 0;
+      }
+      this.$refs.vidRef.play();
+      this.state.playing = true;
+    },
+    pause() {
+      this.$refs.vidRef.pause();
+      this.state.playing = false;
+    },
+    togglePlay() {
+      if (this.state.playing) {
+        this.pause();
+      } else {
+        this.play();
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -157,8 +148,8 @@ export default defineComponent({
 }
 
 video {
-  /*aspect-ratio: 348/520;*/
-  width: 100%;
+/*aspect-ratio: 348/520;*/
+width: 100%;
   height: auto;
   position: relative;
 }
