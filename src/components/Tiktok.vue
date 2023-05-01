@@ -16,7 +16,7 @@
     </div>
 
     <div class="user-button">
-      <router-link :to="{path: '/user/' + user.id}" tag="a" >@{{user.id}}</router-link>
+      <router-link :to="{path: '/user/' + user.id + '/'}" tag="a" >@{{user.id}}</router-link>
     </div>
 
     <div class="title">

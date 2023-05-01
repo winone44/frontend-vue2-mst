@@ -83,6 +83,13 @@ export default new Router({
       component: () => import('@/views/main/AddTiktokForm.vue'),
       beforeEnter: authGuard,
     },
+    {
+      path: '/user/:id',
+      name: 'user',
+      component: () => import('@/views/main/UserProfile.vue'),
+      beforeEnter: authGuard,
+      props: true
+    },
   ]
 })
 
