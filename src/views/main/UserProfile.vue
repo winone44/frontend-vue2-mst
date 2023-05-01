@@ -21,8 +21,8 @@
       </b-row>
 <!--  Obserwuje | Obserwujący | Polubienia-->
       <b-row>
-        <b-col><b>3130</b></b-col>
-        <b-col><b>6M</b></b-col>
+        <b-col><b>{{user.number_of_following}}</b></b-col>
+        <b-col><b>{{user.number_of_followers}}</b></b-col>
         <b-col><b>226.2M</b></b-col>
       </b-row>
       <b-row>
