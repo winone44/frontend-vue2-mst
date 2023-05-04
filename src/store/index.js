@@ -6,6 +6,8 @@ import qs from "qs";
 
 Vue.use(Vuex)
 
+const API_URL = "http://192.168.0.182:8000/api/";
+
 export default new Vuex.Store({
   state: {
     token: null,
@@ -64,7 +66,7 @@ export default new Vuex.Store({
     async login({commit, dispatch}, payload) {
       try {
         console.log(payload);
-        let response = await axios.post('http://192.168.0.182:8000/api/users/accounts/login', qs.stringify(payload))
+        let response = await axios.post(`${API_URL}users/accounts/login`, qs.stringify(payload))
         console.log(response);
         console.log(response.data.localId);
         commit('auth', {
@@ -126,7 +128,7 @@ export default new Vuex.Store({
     },
     async register({commit}, payload) {
       try {
-        let response = await axios.post('http://192.168.0.182:8000/api/users/accounts/register', qs.stringify(payload))
+        let response = await axios.post(`${API_URL}users/accounts/register`, qs.stringify(payload))
         console.log(response);
         router.push({name: 'login'})
 
@@ -140,7 +142,7 @@ export default new Vuex.Store({
     },
     async addFriend({state}, payload) {
       try {
-        let {data} = await axios.post('http://192.168.0.182:8000/api/users/accounts/friend/', payload)
+        let {data} = await axios.post(`${API_URL}users/accounts/friend/`, payload)
         console.log(data);
         console.log(state.userId);
       } catch (e) {
@@ -152,7 +154,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.get('http://192.168.0.182:8000/api/users/accounts/friend/' + state.userId + '/');
+        let {data} = await axios.get(`${API_URL}users/accounts/friend/` + state.userId + '/');
         console.log('zrobione')
         commit('setFriends', Object.values(data))
       } catch(e) {
@@ -164,7 +166,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        await axios.delete('http://192.168.0.182:8000/api/users/accounts/friend/', { data: payload });
+        await axios.delete(`${API_URL}users/accounts/friend/`, { data: payload });
       } catch(e) {
         console.log(e)
       }
@@ -174,7 +176,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.get('http://192.168.0.182:8000/api/users/accounts/person/');
+        let {data} = await axios.get(`${API_URL}users/accounts/person/`);
         commit('setPeople', Object.values(data))
       } catch(e) {
         console.log(e)
@@ -185,7 +187,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.get('http://192.168.0.182:8000/api/users/accounts/person/' + payload.id + '/');
+        let {data} = await axios.get(`${API_URL}users/accounts/person/` + payload.id + '/');
         console.log(data)
         commit('setPerson', data)
       } catch(e) {
@@ -197,7 +199,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.get('http://192.168.0.182:8000/api/users/messages/inbox/', {params: payload});
+        let {data} = await axios.get(`${API_URL}users/messages/inbox/`, {params: payload});
         console.log(data)
         commit('setMessages', Object.values(data))
       } catch(e) {
@@ -209,7 +211,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.get('http://192.168.0.182:8000/api/users/messages/', {params: payload});
+        let {data} = await axios.get(`${API_URL}/users/messages/`, {params: payload});
         console.log(data)
         commit('setMessages', Object.values(data))
       } catch(e) {
@@ -218,7 +220,7 @@ export default new Vuex.Store({
     },
     async sendMessages({commit}, payload) {
       try {
-        let {data} = await axios.post('http://192.168.0.182:8000/api/users/messages/', payload)
+        let {data} = await axios.post(`${API_URL}users/messages/`, payload)
         console.log(data);
         commit('addMessages', data)
         //console.log(state.userId);
@@ -231,7 +233,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.post('http://192.168.0.182:8000/api/users/video/add/', payload)
+        let {data} = await axios.post(`${API_URL}users/video/add/`, payload)
         console.log(data);
 
         //console.log(state.userId);
@@ -244,7 +246,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.get('http://192.168.0.182:8000/api/users/video/add/')
+        let {data} = await axios.get(`${API_URL}users/video/add/`)
         console.log(data);
         commit('addVideos', data)
         //console.log(state.userId);

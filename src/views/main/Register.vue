@@ -6,6 +6,44 @@
         <b-col sm="6" offset-sm="3">
           <b-form @submit="onSubmit" @reset="onReset">
             <b-form-group
+              label="Imię:"
+              label-for="firstName"
+              >
+              <b-form-input
+                  id="firstName"
+                  type="text"
+                  v-model="firstName"
+                  @input="$v.firstName.$model = $event.trim()"
+                  :state="!$v.firstName.$dirty ? null : !$v.firstName.$error"
+                  required
+                  placeholder="Podaj swoje imię " />
+              <b-form-invalid-feedback>
+                <span v-if="!$v.firstName.required">To pole jest wymagane. </span>
+              </b-form-invalid-feedback>
+              <b-form-valid-feedback>
+                <span>Wszystko jest okej. </span>
+              </b-form-valid-feedback>
+            </b-form-group>
+            <b-form-group
+                label="Nazwisko:"
+                label-for="lastName"
+            >
+              <b-form-input
+                  id="lastName"
+                  type="text"
+                  v-model="lastName"
+                  @input="$v.lastName.$model = $event.trim()"
+                  :state="!$v.lastName.$dirty ? null : !$v.lastName.$error"
+                  required
+                  placeholder="Podaj swoje nazwisko" />
+              <b-form-invalid-feedback>
+                <span v-if="!$v.lastName.required">To pole jest wymagane. </span>
+              </b-form-invalid-feedback>
+              <b-form-valid-feedback>
+                <span>Wszystko jest okej. </span>
+              </b-form-valid-feedback>
+            </b-form-group>
+            <b-form-group
                     label="Nazwa użytkownika:"
                     label-for="username"
             >
@@ -16,7 +54,7 @@
                       @input="$v.username.$model = $event.trim()"
                       :state="!$v.username.$dirty ? null : !$v.username.$error"
                       required
-                      placeholder="Podaj adres email" />
+                      placeholder="Podaj swoją nazwę użytkownika" />
               <b-form-invalid-feedback>
                 <span v-if="!$v.username.required">To pole jest wymagane. </span>
               </b-form-invalid-feedback>
@@ -46,17 +84,17 @@
             </b-form-group>
 
             <b-form-group
-                label="date_of_birth:"
+                label="Data urodzenia:"
                 label-for="date_of_birth"
             >
               <b-form-input
                   id="date_of_birth"
-                  type="text"
+                  type="date"
                   v-model="date_of_birth"
                   @input="$v.date_of_birth.$model = $event.trim()"
                   :state="!$v.date_of_birth ? null : !$v.date_of_birth.$error"
                   required
-                  placeholder="RRRR-MM-DD" />
+                  />
               <b-form-invalid-feedback>
                 <span v-if="!$v.date_of_birth.required">To pole jest wymagane. </span>
               </b-form-invalid-feedback>
@@ -126,10 +164,23 @@
   import { required, minLength, email } from 'vuelidate/lib/validators'
   // import authAxios from "@/auth-axios";
 
+  function minAge(age) {
+    return function(value) {
+      if (!value) return true
+      const dateOfBirth = new Date(value)
+      const currentDate = new Date()
+      const ageDifference = currentDate - dateOfBirth
+      const ageInYears = ageDifference / (365.25 * 24 * 60 * 60 * 1000)
+      return ageInYears >= age
+    }
+  }
+
   export default {
     name: 'register-main',
     data(){
       return {
+        firstName: '',
+        lastName: '',
         username: '',
         email: '',
         password: '',
@@ -138,6 +189,12 @@
       }
     },
     validations: {
+      firstName: {
+        required
+      },
+      lastName: {
+        required
+      },
       username: {
         required
       },
@@ -154,19 +211,21 @@
         minLength: minLength(8)
       },
       date_of_birth: {
-        required
+        required,
+        minAge: minAge(13)
       }
     },
     methods: {
       async onSubmit(event){
         event.preventDefault();
         await this.$store.dispatch('register', {
+          firstName: this.firstName,
+          lastName: this.lastName,
           username: this.username,
           email: this.email,
           password: this.password,
           password2: this.password2,
           date_of_birth: this.date_of_birth
-
         })
       },
       onReset(event){
