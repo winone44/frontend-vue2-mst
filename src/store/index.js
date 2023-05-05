@@ -211,7 +211,7 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.get(`${API_URL}/users/messages/`, {params: payload});
+        let {data} = await axios.get(`${API_URL}users/messages/`, {params: payload});
         console.log(data)
         commit('setMessages', Object.values(data))
       } catch(e) {

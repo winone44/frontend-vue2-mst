@@ -10,10 +10,10 @@
       <div v-else>
         <b-icon-arrow-left @click="$router.go(-1)"></b-icon-arrow-left>
         <h1 v-if="friendFirstName !== undefined">Wyślij wiadomość do: {{ friendFirstName }} {{ friendLastName }}</h1>
-        <form @submit.prevent="sendMessage">
-          <textarea v-model="newMessageText"></textarea>
-          <button type="submit">Wyślij</button>
-        </form>
+        <b-form @submit.prevent="sendMessage">
+          <b-form-input type="text" v-model="newMessageText"></b-form-input>
+          <b-button type="submit">Wyślij</b-button>
+        </b-form>
         <div v-for="(message, index) in this.$store.state.messages" :key="index">
           <p><b>{{ message.text }}</b></p>
           <p>{{message.sender.firstName}} {{message.sender.lastName}} {{ message.created_at }}</p>
@@ -39,11 +39,6 @@ export default {
       intervalId: null,
       conversation: null,
       isLoading: true,
-      // conversation: {
-      //   messages: [
-      //     {text: 'asdasd', date:'2342-34-34'}
-      //   ]
-      // },
       newMessageText: ''
     }
   },

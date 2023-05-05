@@ -40,7 +40,7 @@
           Przeciągnij i upuść pliki tutaj lub kliknij, aby wybrać pliki do przesłania.
         </div>
       </vue-dropzone>
-      <button type="submit">Wyslij</button>
+      <b-button type="submit">Wyslij</b-button>
     </b-form>
     <div v-if="coordinates">
       Współrzędne geograficzne: {{ coordinates }}
