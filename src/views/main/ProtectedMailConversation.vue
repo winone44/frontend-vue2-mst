@@ -11,7 +11,7 @@
         <b-icon-arrow-left @click="$router.go(-1)"></b-icon-arrow-left>
         <h1 v-if="friendFirstName !== undefined">Wyślij wiadomość do: {{ friendFirstName }} {{ friendLastName }}</h1>
         <b-form @submit.prevent="sendMessage">
-          <b-form-input type="text" v-model="newMessageText"></b-form-input>
+          <b-form-textarea v-model="newMessageText"></b-form-textarea>
           <b-button type="submit">Wyślij</b-button>
         </b-form>
         <div v-for="(message, index) in this.$store.state.messages" :key="index">
