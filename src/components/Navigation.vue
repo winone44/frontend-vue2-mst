@@ -1,5 +1,8 @@
 <template>
-    <b-nav tabs fill>
+  <div>
+  <b-button variant="info" v-b-toggle.sidebar-right>Menu</b-button>
+  <b-sidebar id="sidebar-right" title="Menu" right shadow>
+    <b-nav vertical fill>
         <router-link to="/" tag="b-nav-item" class="nav-item" v-if="!auth" :active="$route.name === 'home'">Home</router-link>
         <router-link to="/register" tag="b-nav-item" class="nav-item" v-if="!auth" :active="$route.name === 'register'"> Dołącz do nas</router-link>
         <router-link to="/login" tag="b-nav-item" class="nav-item" v-if="!auth" :active="$route.name === 'login'">Zaloguj się</router-link>
@@ -11,6 +14,8 @@
         <router-link :to="{ name: 'user', params: { id: this.$store.state.userId }}" tag="b-nav-item" class="nav-item" v-if="auth" :active="$route.name === 'user'">Dla zalogowanych Twój profil</router-link>
         <li @click="logout" class="nav-item" v-if="auth"><b-nav-item>Wyloguj</b-nav-item></li>
     </b-nav>
+  </b-sidebar>
+  </div>
 </template>
 
 <script>

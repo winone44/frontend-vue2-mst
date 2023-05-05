@@ -92,11 +92,13 @@
                   type="date"
                   v-model="date_of_birth"
                   @input="$v.date_of_birth.$model = $event.trim()"
-                  :state="!$v.date_of_birth ? null : !$v.date_of_birth.$error"
+                  :state="date_of_birth ? !$v.date_of_birth.$error : null"
                   required
                   />
               <b-form-invalid-feedback>
                 <span v-if="!$v.date_of_birth.required">To pole jest wymagane. </span>
+                <span v-if="!$v.date_of_birth.minAge">Osoby poniżej 13 roku życia nie mogą się zarejestrować.</span>
+                <span v-if="!$v.date_of_birth.maxAge">Osoby powyżej 120 lat nie przechodzą validacji.</span>
               </b-form-invalid-feedback>
               <b-form-valid-feedback>
                 <span>Wszystko jest okej. </span>
@@ -175,6 +177,17 @@
     }
   }
 
+  function maxAge(age) {
+    return function(value) {
+      if (!value) return true
+      const dateOfBirth = new Date(value)
+      const currentDate = new Date()
+      const ageDifference = currentDate - dateOfBirth
+      const ageInYears = ageDifference / (365.25 * 24 * 60 * 60 * 1000)
+      return ageInYears <= age
+    }
+  }
+
   export default {
     name: 'register-main',
     data(){
@@ -212,7 +225,8 @@
       },
       date_of_birth: {
         required,
-        minAge: minAge(13)
+        minAge: minAge(13),
+        maxAge: maxAge(120)
       }
     },
     methods: {
