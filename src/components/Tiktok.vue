@@ -14,7 +14,6 @@
 
     <div class="back-button">
       <a :href="'./protected'" class="transparent-button">MENU</a>
-<!--      <router-link to="/protected" tag="a" class="transparent-button">MENU</router-link>-->
     </div>
 
     <div class="like">
