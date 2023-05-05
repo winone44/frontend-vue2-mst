@@ -6,7 +6,7 @@
       :style="style"
   >
     <tiktok
-        v-for="(tiktok, i) in tiktokData"
+        v-for="(tiktok, index) in tiktokData"
         :user="tiktok.user"
         :video="tiktok.video"
         :title="tiktok.title"
@@ -14,10 +14,14 @@
         :latitude_deg="tiktok.latitude_deg"
         :longitude_deg="tiktok.longitude_deg"
         :address="tiktok.address"
-        :key="tiktok.id"
+        :likeCount="tiktok.number_of_likes"
+        :user_has_liked="tiktok.user_has_liked"
+        :video_id="tiktok.id"
+        :index="index"
+        :key="index"
         :ref="
         (el) => {
-          tiktokRefs[i] = el;
+          tiktokRefs[index] = el;
         }
       "
     />

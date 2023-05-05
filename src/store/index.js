@@ -246,9 +246,35 @@ export default new Vuex.Store({
         return;
       }
       try {
-        let {data} = await axios.get(`${API_URL}users/video/add/`)
+        let {data} = await axios.get(`${API_URL}users/video/add/`, {params: {user_id: state.userId}})
         console.log(data);
         commit('addVideos', data)
+        //console.log(state.userId);
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async sendLikeVideo({state}, payload) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await axios.post(`${API_URL}users/video/like/`, payload)
+        console.log(data);
+
+        //console.log(state.userId);
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async delLikeVideo({state}, payload) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await axios.delete(`${API_URL}users/video/like/`, {data: payload})
+        console.log(data);
+
         //console.log(state.userId);
       } catch (e) {
         console.log(e)

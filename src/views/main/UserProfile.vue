@@ -1,4 +1,12 @@
 <template>
+  <transition name="fade" mode="out-in">
+    <div v-if="isLoading" class="padding-y">
+      <h4>Wczytywanie graczy</h4>
+      <div class="text-center">
+        <b-spinner variant="primary"/>
+      </div>
+    </div>
+    <div v-else>
   <b-container>
     <b-card>
 <!--  Cofnij | Imię i nazwisko | Udostępnij-->
@@ -44,6 +52,8 @@
       </b-row>
     </b-card>
   </b-container>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -57,6 +67,7 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
       user: {
         id: 1,
         firstName: "",
@@ -69,11 +80,28 @@ export default {
       },
     }
   },
+  watch: {
+    $route(to, from) {
+      // Reagowanie na zmianę parametru routera
+      if (to.params.id !== from.params.id) {
+        this.isLoading = true;
+        this.userId = to.params.id;
+        // Wywołanie metody, która pobiera dane użytkownika
+        this.fetchUserData(this.userId);
+      }
+    },
+  },
   async created() {
-    await this.$store.dispatch('getPerson', {
-      id: this.id
-    })
-    this.user = this.$store.state.person
+    await this.fetchUserData(this.id);
+  },
+  methods: {
+    async fetchUserData(userId) {
+      await this.$store.dispatch('getPerson', {
+        id: userId
+      })
+      this.user = this.$store.state.person
+      this.isLoading = false;
+    }
   }
 }
 </script>

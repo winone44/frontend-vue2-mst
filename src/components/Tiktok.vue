@@ -2,6 +2,7 @@
   <div class="tiktok">
     <video :src="video" ref="vidRef" @click="togglePlay" />
     <svg
+        id="play-button"
         width="512"
         height="512"
         viewBox="0 0 512 512"
@@ -13,6 +14,13 @@
 
     <div class="back-button">
       <router-link to="/protected" tag="a" class="transparent-button">MENU</router-link>
+    </div>
+
+    <div class="like">
+      <b-icon v-if="!user_has_liked" icon="heart" style="width: 30px; height: 30px;" @click="likeAdd(video_id, index)"></b-icon>
+      <b-icon v-else icon="heart-fill" style="width: 30px; height: 30px;" @click="likeDel(video_id, index)"></b-icon>
+      <p v-if="!user_has_liked">{{likeCount}}</p>
+      <p v-else>{{likeCount}}</p>
     </div>
 
     <div class="user-button">
@@ -42,6 +50,7 @@
 export default {
   name: "tiktok-vue",
   props: {
+    video_id: [String, Number],
     user: [String, Object],
     video: String,
     title: String,
@@ -49,6 +58,9 @@ export default {
     latitude_deg: String,
     longitude_deg: String,
     address: String,
+    likeCount: [String, Number],
+    index: [String, Number],
+    user_has_liked: [String, Boolean]
   },
   data() {
     return {
@@ -79,6 +91,22 @@ export default {
         this.play();
       }
     },
+    likeAdd(id, index) {
+      this.$store.dispatch('sendLikeVideo', {
+        person: this.$store.state.userId,
+        video: id
+      })
+      this.$store.state.videos[index].user_has_liked = true;
+      this.$store.state.videos[index].number_of_likes += 1;
+    },
+    likeDel(id, index) {
+      this.$store.dispatch('delLikeVideo', {
+        person: this.$store.state.userId,
+        video: id
+      })
+      this.$store.state.videos[index].user_has_liked = false;
+      this.$store.state.videos[index].number_of_likes -= 1;
+    }
   },
 };
 </script>
@@ -110,6 +138,16 @@ export default {
   width: 100%;
   height: 100%;
   background-color: black;
+}
+
+.like {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  bottom: 400px;
+  right: 15px;
+  color: white;
+  opacity: 0.8;
 }
 
 .back-button {
@@ -154,7 +192,7 @@ width: 100%;
   position: relative;
 }
 
-svg {
+#play-button {
   position: absolute;
   top: calc(50% - 35px);
   left: calc(50% - 35px);
