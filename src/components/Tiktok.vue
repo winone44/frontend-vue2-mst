@@ -13,7 +13,8 @@
     </svg>
 
     <div class="back-button">
-      <router-link to="/protected" tag="a" class="transparent-button">MENU</router-link>
+      <a :href="'./protected'" class="transparent-button">MENU</a>
+<!--      <router-link to="/protected" tag="a" class="transparent-button">MENU</router-link>-->
     </div>
 
     <div class="like">
@@ -24,7 +25,7 @@
     </div>
 
     <div class="user-button">
-      <router-link :to="{path: '/user/' + user.id + '/'}" tag="a" >@{{user.username}}</router-link>
+      <a :href="'./user/' + user.id + '/'">@{{user.username}}</a>
     </div>
 
     <div class="title">
