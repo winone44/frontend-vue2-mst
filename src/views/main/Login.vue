@@ -1,5 +1,5 @@
 <template>
-  <div class="padding">
+  <b-container>
     <div class="white-card">
       <h1>Logowanie</h1>
       <b-row>
@@ -57,7 +57,7 @@
         </b-col>
       </b-row>
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container>
     <transition name="fade" mode="out-in">
       <div v-if="isLoading" class="padding-y">
         <h4>Wczytywanie</h4>
@@ -22,7 +22,7 @@
 
       </div>
     </transition>
-  </div>
+  </b-container>
 </template>
 
 <script>

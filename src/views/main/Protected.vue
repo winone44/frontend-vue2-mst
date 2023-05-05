@@ -1,10 +1,10 @@
 <template>
-  <div class="padding">
+  <div>
     <h1>Sekretna treść</h1>
     <p>Tu możesz wejść tylko jako zalogowany</p>
 
     <transition name="fade" mode="out-in">
-      <div v-if="isLoading" class="padding-y">
+      <div v-if="isLoading">
         <h4>Wczytywanie graczy</h4>
         <div class="text-center">
           <b-spinner variant="primary"/>
@@ -53,7 +53,4 @@ export default {
 </script>
 
 <style scoped>
-.padding-y {
-  padding: 50px 0;
-}
 </style>

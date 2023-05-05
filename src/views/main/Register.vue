@@ -1,6 +1,6 @@
 <template>
-  <div class="padding">
-    <div class="white-card">
+  <b-container>
+    <div>
       <h1>Rejestracja</h1>
       <b-row>
         <b-col sm="6" offset-sm="3">
@@ -157,7 +157,7 @@
         </b-col>
       </b-row>
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script>

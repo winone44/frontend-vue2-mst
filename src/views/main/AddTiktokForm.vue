@@ -1,12 +1,35 @@
 <template>
-  <div>
-    <form @submit.prevent="submitForm">
-      <label for="title">Opis:</label>
-      <input type="text" id="title" v-model="title"/>
-      <label for="address">Adres:</label>
-      <input type="text" id="address" v-model="address"/>
-      <label for="enterprise">Firma/Reklama:</label>
-      <input type="checkbox" id="enterprise" v-model="enterprise"/>
+  <b-container>
+    <b-form @submit.prevent="submitForm">
+      <b-form-group
+        id="title"
+        label="Opis:"
+        label-for="title-input"
+        >
+        <b-form-input
+          id="title-input"
+          v-model="title"
+          type="text"
+          placeholder="Krótki opis"
+          required
+          ></b-form-input>
+      </b-form-group>
+<!--      <label for="title">Opis:</label>-->
+<!--      <input type="text" id="title" v-model="title"/>-->
+      <b-form-group
+        id="address"
+        label="Adres:"
+        label-for="address-input"
+        >
+        <b-form-input
+          id="address-input"
+          v-model="address"
+          type="text"
+          placeholder="Wpisz pełny adres lub tylko miejscowość"
+          required
+          ></b-form-input>
+      </b-form-group>
+      <b-form-checkbox v-model="enterprise">Firma/Reklama:</b-form-checkbox>
       <vue-dropzone
           id="file-send-box"
           ref="dropzone"
@@ -18,11 +41,11 @@
         </div>
       </vue-dropzone>
       <button type="submit">Wyslij</button>
-    </form>
+    </b-form>
     <div v-if="coordinates">
       Współrzędne geograficzne: {{ coordinates }}
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script>
