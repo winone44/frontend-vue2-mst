@@ -13,7 +13,7 @@
     </svg>
 
     <div class="back-button">
-      <a :href="'./protected'" class="transparent-button">MENU</a>
+      <a :href="'./protected-mail'" class="transparent-button"><b-icon icon="envelope-fill"></b-icon> </a>
     </div>
 
     <div class="like">

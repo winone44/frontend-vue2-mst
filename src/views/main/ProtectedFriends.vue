@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>Sekretna treść</h1>
-    <p>Tu możesz wejść tylko jako zalogowany</p>
+    <h1>Znajomi</h1>
 
     <transition name="fade" mode="out-in">
       <div v-if="isLoading">
@@ -22,7 +21,7 @@
 
 <script>
 export default {
-  name: 'Protected-main',
+  name: 'protected-friends',
   data(){
     return {
       // players: [], - jest w computed

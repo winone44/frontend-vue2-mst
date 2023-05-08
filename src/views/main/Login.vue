@@ -90,7 +90,7 @@
           password: this.password
           // returnSecureToken: true
         })
-        this.$router.push({name: 'protected'})
+        this.$router.push({name: 'protected-tiktok'})
       },
       onReset(event){
         event.preventDefault();

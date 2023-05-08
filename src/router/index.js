@@ -21,7 +21,7 @@ const notAuthGuard = (to, from, next) => {
   if (!store.getters.isAuth) {
     next();
   }else {
-    next({name: 'protected'})
+    next({name: 'protected-mail'})
   }
 }
 
@@ -47,9 +47,9 @@ export default new Router({
       beforeEnter: notAuthGuard,
     },
     {
-      path: '/protected',
-      name: 'protected',
-      component: () => import('@/views/main/Protected.vue'),
+      path: '/protected-friends',
+      name: 'protected-friends',
+      component: () => import('@/views/main/ProtectedFriends.vue'),
       beforeEnter: authGuard,
     },
     {

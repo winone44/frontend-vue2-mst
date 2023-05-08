@@ -44,7 +44,9 @@
       </b-row>
 <!--  Opis-->
       <b-row>
-        <b-col>Tiktoker roku</b-col>
+        <b-col>
+          <router-link to="/protected-friends" tag="b-button" class="nav-item" :active="$route.name === 'protected-friends'">Znajomi</router-link>
+        </b-col>
       </b-row>
 <!--  Filmy-->
       <b-row>
