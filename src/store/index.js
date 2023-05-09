@@ -20,7 +20,11 @@ async function onRequestFailure(error, store) {
       await store.dispatch('refreshTokens');
       // Jeśli odświeżanie się powiedzie, spróbuj ponownie wykonać żądanie z nowym tokenem
       config.__isRetryRequest = true;
-      return apiClient(config);
+      // Aktualizuj token w konfiguracji żądania
+      config.headers['Authorization'] = `Bearer ${store.state.accessToken}`;
+      const response = apiClient(config);
+      console.log(response);
+      return response;
     } catch (refreshError) {
       // Jeśli odświeżanie się nie powiedzie, wyloguj użytkownika
       store.dispatch('logout');
@@ -71,8 +75,6 @@ const store = new Vuex.Store({
 
       console.log('accessToken')
       console.log(payload.accessToken)
-      console.log('refreshToken')
-      console.log(payload.refreshToken)
       if (payload.accessToken) {
         apiClient.defaults.headers.common['Authorization'] = `Bearer ${payload.accessToken}`;
       } else {
@@ -106,6 +108,7 @@ const store = new Vuex.Store({
       state.people = null;
       state.messages = null;
       state.videos = null;
+      delete apiClient.defaults.headers.common['Authorization'];
     },
     setResponse(state, payload) {
       state.response = payload.response;
@@ -127,16 +130,20 @@ const store = new Vuex.Store({
           userId: response.data.localId
         });
 
+
+
         const now = new Date();
-        const endDate = new Date(now.getTime() + response.data.expiresIn * 1000)
+        const endDate = new Date(now.getTime() + response.data.refresh_token_lifetime * 1000)
         localStorage.setItem('accessToken', response.data.access);
         localStorage.setItem('refreshToken', response.data.refresh);
         localStorage.setItem('userId', response.data.localId);
         localStorage.setItem('expires', endDate);
 
+        console.log(response.data.refresh_token_lifetime)
+
         setTimeout(() => {
           dispatch('logout');
-        }, response.data.expiresIn * 1000)
+        }, response.data.refresh_token_lifetime * 1000)
 
       } catch (e) {
         commit('setResponse', {
@@ -159,6 +166,7 @@ const store = new Vuex.Store({
       } catch (error) {
         console.error(error);
       }
+
 
     },
     logout({commit}) {
