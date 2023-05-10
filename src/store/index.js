@@ -336,6 +336,30 @@ const store = new Vuex.Store({
         console.log(e)
       }
     },
+    async getUserVideos({state, commit}, payload) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await apiClient.get(`${API_URL}users/videos/person/get/`, {params: payload})
+        console.log(data);
+        commit('addVideos', data)
+        //console.log(state.userId);
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async delUserVideos({state}, payload) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await apiClient.delete(`${API_URL}users/videos/person/del/`, {data: payload})
+        console.log(data);
+      } catch (e) {
+        console.log(e)
+      }
+    },
     async sendLikeVideo({state}, payload) {
       if (state.userId == null) {
         return;

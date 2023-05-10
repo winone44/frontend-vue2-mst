@@ -44,13 +44,18 @@
       </b-row>
 <!--  Opis-->
       <b-row>
-        <b-col>
-          <router-link to="/protected-friends" tag="b-button" class="nav-item" :active="$route.name === 'protected-friends'">Znajomi</router-link>
-        </b-col>
+        <b-col></b-col>
       </b-row>
 <!--  Filmy-->
       <b-row>
-        <b-col>Filmy</b-col>
+        <b-col></b-col>
+        <b-col>
+          <router-link style="width: 100%" to="/protected-friends" tag="b-button" >Znajomi</router-link>
+        </b-col>
+        <b-col>
+          <router-link :to="'/protected-tiktok/' + user.id + '/'" tag="b-button" >Filmy</router-link>
+        </b-col>
+        <b-col></b-col>
       </b-row>
     </b-card>
   </b-container>

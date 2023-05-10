@@ -1,6 +1,6 @@
 <template>
   <div class="tiktok">
-    <video :src="video" ref="vidRef" @click="togglePlay" />
+    <video :src="'/' + video" ref="vidRef" @click="togglePlay" />
     <svg
         id="play-button"
         width="512"
@@ -13,7 +13,7 @@
     </svg>
 
     <div class="back-button">
-      <a :href="'./protected-mail'" class="transparent-button"><b-icon icon="envelope-fill"></b-icon> </a>
+      <a :href="'/protected-mail'" class="transparent-button"><b-icon icon="envelope-fill"></b-icon> </a>
     </div>
 
     <div class="like">
@@ -23,8 +23,12 @@
       <p v-else>{{likeCount}}</p>
     </div>
 
+    <div v-if="userId === $store.state.userId" class="delete-button">
+      <b-icon v-b-modal.del-confirm-popup icon="x-circle" variant="danger" style="width: 30px; height: 30px;"></b-icon>
+    </div>
+
     <div class="user-button">
-      <a :href="'./user/' + user.id + '/'">@{{user.username}}</a>
+      <a :href="'/user/' + user.id + '/'">@{{user.username}}</a>
     </div>
 
     <div class="title">
@@ -43,6 +47,8 @@
         <a class="transparent-button" :href="'https://www.google.com/maps/search/?api=1&query=' + latitude_deg + '%2C' + longitude_deg ">Lokalizacja 🧑‍🚀</a>
       </div>
     </div>
+    <!-- The modal -->
+    <b-modal @ok="videoDel(video_id)" id="del-confirm-popup">Usunąć ten film?</b-modal>
   </div>
 </template>
 
@@ -60,7 +66,8 @@ export default {
     address: String,
     likeCount: [String, Number],
     index: [String, Number],
-    user_has_liked: [String, Boolean]
+    user_has_liked: [String, Boolean],
+    userId: [String, Number],
   },
   data() {
     return {
@@ -68,9 +75,6 @@ export default {
         playing: false,
       },
     };
-  },
-  mounted() {
-
   },
   methods: {
     play(next) {
@@ -106,6 +110,11 @@ export default {
       })
       this.$store.state.videos[index].user_has_liked = false;
       this.$store.state.videos[index].number_of_likes -= 1;
+    },
+    videoDel(videoId) {
+      this.$store.dispatch('delUserVideos', {
+        video_id: videoId
+      })
     }
   },
 };
@@ -142,9 +151,19 @@ export default {
 
 .like {
   width: 50px;
-  height: 50px;
+  height: 60px;
   position: absolute;
-  bottom: 400px;
+  bottom: 390px;
+  right: 15px;
+  color: white;
+  opacity: 0.8;
+}
+
+.delete-button {
+  width: 50px;
+  height: 30px;
+  position: absolute;
+  bottom: 340px;
   right: 15px;
   color: white;
   opacity: 0.8;

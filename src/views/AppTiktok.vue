@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <tik-tok-stream/>
+      <tik-tok-stream :userId="userId"/>
   </div>
 </template>
 
@@ -8,6 +8,9 @@
 
 import TikTokStream from "@/views/main/ProtectedTiktok";
 export default {
+  props: {
+    userId: [String, Number]
+  },
   components: {TikTokStream}
 }
 </script>

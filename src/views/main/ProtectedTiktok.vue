@@ -19,6 +19,7 @@
         :video_id="tiktok.id"
         :index="index"
         :key="index"
+        :userId="userId"
         :ref="
         (el) => {
           tiktokRefs[index] = el;
@@ -35,6 +36,9 @@ import Tiktok from "../../components/Tiktok.vue";
 
 export default {
   name: "TikTokStream",
+  props: {
+    userId: [String, Number]
+  },
   directives: {
     swipe,
   },
@@ -62,7 +66,13 @@ export default {
     },
   },
   async mounted() {
-    await this.$store.dispatch('getVideos')
+    if (/^-?\d+(\.\d+)?$/.test(this.userId) ) {
+      await this.$store.dispatch('getUserVideos', {
+        user_id: this.userId
+      })
+    } else {
+      await this.$store.dispatch('getVideos')
+    }
     this.$watch(
         () => this.currentSlide,
         (items, oldItems) => {

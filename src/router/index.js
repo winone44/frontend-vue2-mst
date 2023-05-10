@@ -54,10 +54,11 @@ export default new Router({
       beforeEnter: authGuard,
     },
     {
-      path: '/protected-tiktok',
+      path: '/protected-tiktok/:userId?',
       name: 'protected-tiktok',
       component: () => import('@/views/AppTiktok.vue'),
       beforeEnter: authGuard,
+      props: true
     },
     {
       path: '/protected-mail',
