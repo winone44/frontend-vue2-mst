@@ -47,7 +47,7 @@
         <b-col v-else>
           <b-form @submit.prevent="onSubmit">
             <b-form-textarea v-model="description"></b-form-textarea>
-            <b-button type="submit" variant="primary">Submit</b-button>
+            <b-button type="submit" variant="primary">Wyślij</b-button>
           </b-form>
         </b-col>
         <b-col cols="1" v-if="!showTextArea && user.id === Number($store.state.userId)"><b-icon icon="pencil-square" @click="showTextArea = !showTextArea"></b-icon> </b-col>
