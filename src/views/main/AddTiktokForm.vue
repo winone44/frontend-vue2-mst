@@ -115,11 +115,6 @@ export default {
         }
       }
       try {
-        // Wysyłanie adresu do Django REST API
-        // const response = await axios.post(
-        //     "http://localhost:8000/api/address/",
-        //     { address: this.address }
-        // );
         // Użycie Nominatim do przekształcenia adresu w współrzędne geograficzne
         const nominatimResponse = await axios.get(
             `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
