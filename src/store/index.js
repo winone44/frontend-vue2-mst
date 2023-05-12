@@ -6,7 +6,7 @@ import axios from "axios";
 
 Vue.use(Vuex)
 
-const API_URL = "http://192.168.0.182:8000/api/";
+const API_URL = "http://192.168.1.26:8000/api/";
 
 const apiClient = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL,
@@ -270,6 +270,18 @@ const store = new Vuex.Store({
       }
       try {
         let {data} = await apiClient.get(`${API_URL}users/accounts/person/` + payload.id + '/');
+        console.log(data)
+        commit('setPerson', data)
+      } catch(e) {
+        console.log(e)
+      }
+    },
+    async patchPersonDescription({commit, state}, {id, newData}) {
+      if (state.userId == null) {
+        return;
+      }
+      try {
+        let {data} = await apiClient.patch(`${API_URL}users/accounts/person/${id}/patch/`, newData);
         console.log(data)
         commit('setPerson', data)
       } catch(e) {

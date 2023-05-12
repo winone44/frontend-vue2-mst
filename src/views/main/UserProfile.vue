@@ -31,20 +31,26 @@
       <b-row>
         <b-col><b>{{user.number_of_following}}</b></b-col>
         <b-col><b>{{user.number_of_followers}}</b></b-col>
-        <b-col><b>226.2M</b></b-col>
+        <b-col><b>{{user.number_of_likes}}</b></b-col>
       </b-row>
       <b-row>
         <b-col>Obserwuje</b-col>
         <b-col>Obserwujący</b-col>
         <b-col>Polubienia</b-col>
       </b-row>
-<!--  Button Obserwuj-->
-      <b-row>
-        <b-col>Obserwuj</b-col>
-      </b-row>
 <!--  Opis-->
       <b-row>
-        <b-col></b-col>
+        <b-col>Opis</b-col>
+      </b-row>
+      <b-row>
+        <b-col v-if="!showTextArea" style="white-space: pre-line">{{user.description}}</b-col>
+        <b-col v-else>
+          <b-form @submit.prevent="onSubmit">
+            <b-form-textarea v-model="description"></b-form-textarea>
+            <b-button type="submit" variant="primary">Submit</b-button>
+          </b-form>
+        </b-col>
+        <b-col cols="1" v-if="!showTextArea && user.id === Number($store.state.userId)"><b-icon icon="pencil-square" @click="showTextArea = !showTextArea"></b-icon> </b-col>
       </b-row>
 <!--  Filmy-->
       <b-row>
@@ -75,6 +81,8 @@ export default {
   data() {
     return {
       isLoading: true,
+      description: '',
+      showTextArea: false,
       user: {
         id: 1,
         firstName: "",
@@ -107,7 +115,23 @@ export default {
         id: userId
       })
       this.user = this.$store.state.person
+      this.description = this.user.description
       this.isLoading = false;
+    },
+    async onSubmit() {
+      try {
+        const newData = {description: this.description}
+        const id = this.$store.state.userId
+        await this.$store.dispatch('patchPersonDescription', {
+          id, newData
+        })
+
+        console.log(this.description);
+        this.user.description = this.description;
+        this.showTextArea = false;
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }
