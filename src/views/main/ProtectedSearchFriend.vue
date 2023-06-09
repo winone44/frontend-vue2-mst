@@ -145,7 +145,7 @@
             :fields="fields"
             :current-page="currentPage"
             :per-page="perPage"
-            :filter="filter"
+            :filter="filter.trim()"
             :filter-included-fields="filterOn"
             :sort-by.sync="sortBy"
             :sort-desc.sync="sortDesc"
@@ -225,7 +225,7 @@ export default {
       sortBy: '',
       sortDesc: false,
       sortDirection: 'asc',
-      filter: null,
+      filter: '',
       filterOn: [],
       infoModal: {
         id: 'info-modal',
