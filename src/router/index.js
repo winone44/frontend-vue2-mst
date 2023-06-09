@@ -25,7 +25,7 @@ const notAuthGuard = (to, from, next) => {
   }
 }
 
-export default new Router({
+const router =  new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -107,3 +107,13 @@ if (store.getters.isAuth) {
     }, expirationDate.getTime() - now.getTime());
   }
 }
+
+router.beforeEach((to, from, next) => {
+  if (from.path === '/protected-tiktok') {
+    location.reload();
+  } else {
+    next();
+  }
+})
+
+export default router
