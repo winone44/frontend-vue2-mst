@@ -160,7 +160,8 @@
           </template>
 
           <template #cell(actions)="row">
-            <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
+            <router-link class="messages-btn" :to="{ name: 'protected-mail-conversations', params: {id:row.item.id, friendFirstName: row.item.firstName, friendLastName:row.item.lastName}}" tag="b-button">Wiadomość</router-link>
+            <b-button variant="primary" size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
               Więcej informacji
             </b-button>
             <b-button v-if="!friend.some((obj) => obj.friend.id === row.item.id)" size="sm" variant="success" @click="addFriend(row.item.id)">
@@ -181,8 +182,13 @@
         </b-table>
 
         <!-- Info modal -->
-        <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
+        <b-modal :id="infoModal.id" :title="infoModal.title" @hide="resetInfoModal">
           <ModalPersonDetails :person-data="infoModal.content"/>
+          <template #modal-footer>
+            <div class="w-100">
+              <router-link :to="{ name: 'user', params: { id: infoModal.content.id }}" tag="b-button" class="float-left">Pokaż profil</router-link>
+            </div>
+          </template>
         </b-modal>
       </b-container>
     </div>
@@ -195,21 +201,10 @@ export default {
   components: {ModalPersonDetails},
   data() {
     return {
-      // items: [
-      //   { age: 40, firstName: 'Dickerson', lastName: 'Macdonald' },
-      //   { age: 21, firstName: 'Larsen', lastName: 'Shaw' },
-      //   { age: 89, firstName: 'Geneva', lastName: 'Wilson' },
-      //   { age: 38, firstName: 'Jami', lastName: 'Carney' },
-      //   { age: 27, firstName: 'Essie', lastName: 'Dunlap' },
-      //   { age: 40, firstName: 'Thor', lastName: 'Macdonald' },
-      //   { age: 26, firstName: 'Mitzi', lastName: 'Navarro' },
-      //   { age: 22, firstName: 'Genevieve', lastName: 'Wilson' },
-      //   { age: 38, firstName: 'John', lastName: 'Carney' },
-      //   { age: 29, firstName: 'Dick', lastName: 'Dunlap' }
-      // ],
       fields: [
         { key: 'firstName', label: 'Imię', sortable: true, sortDirection: 'desc' },
         { key: 'lastName', label: 'Nazwisko', sortable: true, sortDirection: 'desc' },
+        { key: 'description', label: 'Opis' },
         { key: 'age', label: 'Wiek', sortable: true, class: 'text-center' },
         {
           key: 'is_company',
@@ -221,7 +216,7 @@ export default {
           sortByFormatted: true,
           filterByFormatted: true
         },
-        { key: 'actions', label: 'Actions' }
+        { key: 'actions', label: '' }
       ],
       totalRows: 1,
       currentPage: 1,
@@ -295,8 +290,8 @@ export default {
       await this.$store.dispatch('getFriends');
     },
     info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`
       this.infoModal.content = JSON.parse(JSON.stringify(item, null, 2))
+      this.infoModal.title = this.infoModal.content.firstName + ' ' + this.infoModal.content.lastName
       this.$root.$emit('bv::show::modal', this.infoModal.id, button)
     },
     resetInfoModal() {
@@ -311,3 +306,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.messages-btn {
+  background-color: #5d5d5d;
+}
+</style>
