@@ -37,7 +37,7 @@
     </div>
 
 
-    <div v-if="enterprise === '1'">
+    <div v-if="enterprise === true">
       <div class="map">
         <a class="transparent-button" :href="'https://www.google.com/maps/search/?api=1&query=' + latitude_deg + '%2C' + longitude_deg ">Lokalizacja 🏭</a>
       </div>
