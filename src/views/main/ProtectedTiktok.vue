@@ -104,7 +104,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .tiktok-stream {
   position: relative;
   height: 100%;
