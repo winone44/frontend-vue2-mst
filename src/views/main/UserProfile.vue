@@ -52,16 +52,17 @@
         </b-col>
         <b-col cols="1" v-if="!showTextArea && user.id === Number($store.state.userId)"><b-icon icon="pencil-square" @click="showTextArea = !showTextArea"></b-icon> </b-col>
       </b-row>
-<!--  Filmy-->
+<!--  Przyciski-->
       <b-row>
-        <b-col></b-col>
         <b-col>
-          <router-link style="width: 100%" to="/protected-friends" tag="b-button" >Znajomi</router-link>
+          <router-link class="messages-btn" style="width: 100%" :to="{ name: 'protected-mail-conversations', params: {id:user.id, friendFirstName: user.firstName, friendLastName:user.lastName}}" tag="b-button">Wiadomość</router-link>
         </b-col>
         <b-col>
-          <router-link :to="'/protected-tiktok/' + user.id + '/'" tag="b-button" >Filmy</router-link>
+          <router-link class="friends-btn" style="width: 100%" to="/protected-friends" tag="b-button">Znajomi</router-link>
         </b-col>
-        <b-col></b-col>
+        <b-col>
+          <router-link class="video-btn" style="width: 100%" :to="'/protected-tiktok/' + user.id + '/'" tag="b-button" >Filmy</router-link>
+        </b-col>
       </b-row>
     </b-card>
   </b-container>
@@ -138,8 +139,13 @@ export default {
 </script>
 
 <style scoped>
-/*div{*/
-/*    border: 1px solid black;*/
-/*    padding: 1px;*/
-/*}*/
+.messages-btn {
+  background-color: #5d5d5d;
+}
+.friends-btn {
+  background-color: #0972a9;
+}
+.video-btn {
+  background-color: black;
+}
 </style>
