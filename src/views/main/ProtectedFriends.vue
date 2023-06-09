@@ -4,7 +4,7 @@
 
     <transition name="fade" mode="out-in">
       <div v-if="isLoading">
-        <h4>Wczytywanie graczy</h4>
+        <h4>Wczytywanie</h4>
         <div class="text-center">
           <b-spinner variant="primary"/>
         </div>
