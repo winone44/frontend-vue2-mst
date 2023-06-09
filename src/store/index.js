@@ -6,7 +6,7 @@ import axios from "axios";
 
 Vue.use(Vuex)
 
-const API_URL = "http://192.168.1.26:8000/api/";
+const API_URL = "http://192.168.0.182:8000/api/";
 
 const apiClient = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL,
