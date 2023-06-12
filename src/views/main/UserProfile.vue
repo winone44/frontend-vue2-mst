@@ -58,7 +58,7 @@
           <router-link class="messages-btn" style="width: 100%" :to="{ name: 'protected-mail-conversations', params: {id:user.id, friendFirstName: user.firstName, friendLastName:user.lastName}}" tag="b-button">Wiadomość</router-link>
         </b-col>
         <b-col>
-          <router-link class="friends-btn" style="width: 100%" to="/protected-friends" tag="b-button">Znajomi</router-link>
+          <router-link class="friends-btn" style="width: 100%" :to="{name: 'protected-friends', params: {userId:user.id}}" tag="b-button">Znajomi</router-link>
         </b-col>
         <b-col>
           <router-link class="video-btn" style="width: 100%" :to="'/protected-tiktok/' + user.id + '/'" tag="b-button" >Filmy</router-link>

@@ -10,7 +10,14 @@
         </div>
       </div>
       <div v-else>
-        <b-table striped hover :fields="fields" :items="players"/>
+        <b-table striped hover :fields="fields" :items="players">
+
+          <template #cell(delBtn)="row">
+            <b-button variant="danger" size="sm" @click="delFriend(row.item.friend.id)"  class="mr-1">
+              Usuń
+            </b-button>
+          </template>
+        </b-table>
       </div>
     </transition>
 
@@ -22,6 +29,9 @@
 <script>
 export default {
   name: 'protected-friends',
+  props: {
+    userId: [String, Number]
+  },
   data(){
     return {
       // players: [], - jest w computed
@@ -34,7 +44,8 @@ export default {
         {
           key: 'friend.lastName',
           label: 'Nazwisko'
-        }
+        },
+        { key: 'delBtn', label: '' }
       ]
     };
   },
@@ -44,8 +55,22 @@ export default {
       return this.$store.state.friends;
     }
   },
+  methods: {
+    async delFriend(id) {
+      await this.$store.dispatch('delFriend', {
+        person: this.$store.state.userId,
+        friend: id
+      })
+      await this.$store.dispatch('getFriends', {
+        id: this.$store.state.userId
+      });
+    },
+  },
   async created(){
-    await this.$store.dispatch('getFriends');
+    await this.$store.dispatch('getFriends', {
+      id: this.userId
+    });
+
     this.isLoading = false;
   }
 };

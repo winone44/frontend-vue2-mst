@@ -48,10 +48,11 @@ const router =  new Router({
       beforeEnter: notAuthGuard,
     },
     {
-      path: '/protected-friends',
+      path: '/protected-friends/:userId?',
       name: 'protected-friends',
       component: () => import('@/views/main/ProtectedFriends.vue'),
       beforeEnter: authGuard,
+      props: true
     },
     {
       path: '/protected-tiktok/:userId?',

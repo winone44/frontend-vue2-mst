@@ -256,7 +256,10 @@ export default {
   },
   async created() {
     await this.$store.dispatch('getPeople');
-    await this.$store.dispatch('getFriends');
+    await this.$store.dispatch('getFriends', {
+      id: this.$store.state.userId
+    });
+    console.log(this.$store.state.friends)
     this.isLoading = false;
   },
   watch: {
@@ -280,14 +283,18 @@ export default {
         person: this.$store.state.userId,
         friend: id
       })
-      await this.$store.dispatch('getFriends');
+      await this.$store.dispatch('getFriends', {
+        id: this.$store.state.userId
+      });
     },
     async delFriend(id) {
       await this.$store.dispatch('delFriend', {
         person: this.$store.state.userId,
         friend: id
       })
-      await this.$store.dispatch('getFriends');
+      await this.$store.dispatch('getFriends', {
+        id: this.$store.state.userId
+      });
     },
     info(item, index, button) {
       this.infoModal.content = JSON.parse(JSON.stringify(item, null, 2))

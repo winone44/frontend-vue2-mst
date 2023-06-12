@@ -231,12 +231,12 @@ const store = new Vuex.Store({
         console.log(e)
       }
     },
-    async getFriends({commit, state}) {
+    async getFriends({commit, state}, payload) {
       if (state.userId == null) {
         return;
       }
       try {
-        let {data} = await apiClient.get(`${API_URL}users/accounts/friend/` + state.userId + '/');
+        let {data} = await apiClient.get(`${API_URL}users/accounts/friend/` + payload.id + '/');
         console.log('zrobione')
         commit('setFriends', Object.values(data))
       } catch(e) {
