@@ -115,7 +115,7 @@ export default {
         }
       }
       try {
-        // Użycie Nominatim do przekształcenia adresu w współrzędne geograficzne
+        // Użycie Nominatim do przekształcenia adresu we współrzędne geograficzne
         const nominatimResponse = await axios.get(
             `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
                 this.address
