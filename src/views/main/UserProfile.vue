@@ -45,7 +45,7 @@
       <b-row>
         <b-col v-if="!showTextArea" style="white-space: pre-line">{{user.description}}</b-col>
         <b-col v-else>
-          <b-form @submit.prevent="onSubmit">
+          <b-form @submit.prevent="submitNewDescription">
             <b-form-textarea v-model="description"></b-form-textarea>
             <b-button type="submit" variant="primary">Wyślij</b-button>
           </b-form>
@@ -119,10 +119,10 @@ export default {
       this.description = this.user.description
       this.isLoading = false;
     },
-    async onSubmit() {
+    async submitNewDescription() {
       try {
-        const newData = {description: this.description}
         const id = this.$store.state.userId
+        const newData = {description: this.description}
         await this.$store.dispatch('patchPersonDescription', {
           id, newData
         })
