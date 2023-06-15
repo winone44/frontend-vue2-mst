@@ -69,7 +69,7 @@ export default {
         uploadMultiple: false,
         paramName: 'file',
         maxFilesize: 40,
-        maxFiles: 5,
+        maxFiles: 1,
         dictDefaultMessage: 'Przeciągnij i upuść pliki tutaj lub kliknij, aby wybrać pliki do przesłania.',
         acceptedFiles: '.mp4,.m4v',
         renameFile: this.renameToTimestamp,
