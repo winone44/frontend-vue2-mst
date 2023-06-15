@@ -108,9 +108,9 @@ if (store.getters.isAuth) {
     }, expirationDate.getTime() - now.getTime());
   }
 }
-
+// odświeżenie CSS
 router.beforeEach((to, from, next) => {
-  if (from.path === '/protected-tiktok') {
+  if (from.name === 'protected-tiktok') {
     location.reload();
   } else {
     next();

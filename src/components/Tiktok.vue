@@ -115,6 +115,7 @@ export default {
       this.$store.dispatch('delUserVideos', {
         video_id: videoId
       })
+      location.reload();
     }
   },
 };
