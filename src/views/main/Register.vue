@@ -142,7 +142,7 @@
 
               <b-form-invalid-feedback>
                 <span v-if="!$v.password2.required">To pole jest wymagane. </span>
-                <span v-if="!$v.password2.minLength">Hasło musi posiadać conajmniej 8 znaków. </span>
+                <span  v-if="!$v.password2.sameAsPassword">Hasła muszą być identyczne.</span>
               </b-form-invalid-feedback>
               <b-form-valid-feedback>
                 <span>Wszystko jest okej. </span>
@@ -163,7 +163,7 @@
 </template>
 
 <script>
-  import { required, minLength, email } from 'vuelidate/lib/validators'
+  import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
   // import authAxios from "@/auth-axios";
 
   function minAge(age) {
@@ -221,7 +221,8 @@
       },
       password2: {
         required,
-        minLength: minLength(8)
+        minLength: minLength(8),
+        sameAsPassword: sameAs('password')
       },
       date_of_birth: {
         required,
